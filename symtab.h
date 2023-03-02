@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <optional>
 #include <vector>
 
 // Define a structure for storing symbol information
@@ -25,7 +26,11 @@ class SymbolTable {
   }
 
   // Method to get a symbol from the table
-  Symbol get_symbol(std::string name) { return table[name]; }
+  std::optional<Symbol> get_symbol(std::string name) {
+    if (auto search = this -> table.find(name); search != this -> table.end())
+      return search -> second;
+    return {};
+  }
 
   // Method to check if a symbol exists in the table
   bool symbol_exists(std::string name) { return (table.find(name) != table.end()); }

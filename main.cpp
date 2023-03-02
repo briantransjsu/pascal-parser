@@ -11,10 +11,12 @@ int main(int argc, char *argv[]) {
 
     // Check if a symbol exists and retrieve its information
     if (symTable.symbol_exists("x")) {
-        Symbol symbol = symTable.get_symbol("x");
-        cout << "Symbol name: " << symbol.name << endl;
-        cout << "Symbol type: " << symbol.type << endl;
-        cout << "Symbol value: " << symbol.value << endl;
+      //unwrap the get value 
+      if (auto symbol = symTable.get_symbol("x")) {
+        cout << "Symbol name: " << symbol -> name << endl;
+        cout << "Symbol type: " << symbol -> type << endl;
+        cout << "Symbol value: " << symbol -> value << endl;
+      }
     }
 
     return 0;
