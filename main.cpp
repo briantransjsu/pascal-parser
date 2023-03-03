@@ -32,6 +32,6 @@ int main(int argc, char *argv[]) {
 	std::cout << "No \"z\" found\n";
       }
     }
-
+    symTable.outputSymbolTable();
     return 0;
 }

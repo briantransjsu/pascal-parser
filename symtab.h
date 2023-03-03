@@ -1,10 +1,11 @@
 #ifndef SYMTAB_H
 #define SYMTAB_H
 
+#include <algorithm>
 #include <iostream>
+#include <optional>
 #include <string>
 #include <unordered_map>
-#include <optional>
 #include <vector>
 
 // Define a structure for storing symbol information
@@ -21,18 +22,17 @@ class SymbolTable {
 
  public:
   // Method to add a symbol to the table
-  void add_symbol(std::string name, std::string type, int value = 0) {
-    table[name] = Symbol{name, type, value};
-  }
+  void add_symbol(std::string name, std::string type, int value = 0); 
 
   // Method to get a symbol from the table
-  std::optional<Symbol> get_symbol(std::string name) {
-    if (auto search = this -> table.find(name); search != this -> table.end())
-      return search -> second;
-    return {};
-  }
+  std::optional<Symbol> get_symbol(std::string name);
 
   // Method to check if a symbol exists in the table
-  bool symbol_exists(std::string name) { return (table.find(name) != table.end()); }
+  bool symbol_exists(std::string name) {
+    return (table.find(name) != table.end());
+  }
+
+  // This one is camecased instead of snake to make sure it wasn't from me.
+  void outputSymbolTable();
 };
 #endif
