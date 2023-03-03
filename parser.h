@@ -73,13 +73,15 @@ Node *parseAssignment(std::string input, int &position);
 class Parser {
  private:
   std::string input;
+  int position = 0;
+  std::vector<Node *> statements;
 
  public:
   Parser(std::string);
   // return the root node of the parse tree
   Node* parseProgram();
   // output tree to stdout
-  void outputTree(Node);
+  void outputTree();
 };
 
 #endif

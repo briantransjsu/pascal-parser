@@ -31,3 +31,31 @@ Node *parseAssignment(std::string input, int &position) {
   }
   return new AssignmentNode(left, right);
 }
+
+Parser::Parser(std::string input) : input(input){};
+
+// return the root node of the parse tree
+Node *parseProgram();
+
+void Parser::outputTree() {
+  while ((size_t)this->position < this -> input.length()) {
+    Node *statement = parseAssignment(this -> input, this -> position);
+    if (statement == nullptr) {
+      std::cout << "Error parsing input" << std::endl;
+      std::exit(1);
+    }
+    statements.push_back(statement);
+
+    // Token semicolon = getNextToken(input, position);
+    // if (semicolon.type != OPERATOR || semicolon.value != ";") {
+    //     cout << "Expected semicolon" << endl;
+    //     return 1;
+    // }
+  }
+
+  // Print out the abstract syntax tree
+  for (Node *statement : statements) {
+    statement->print();
+    delete statement;
+  }
+}
