@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "symtab.h"
 
 Node *parseExpression(std::string input, int &position) {
   Token token = getNextToken(input, position);
@@ -59,3 +60,5 @@ void Parser::outputTree() {
     delete statement;
   }
 }
+
+

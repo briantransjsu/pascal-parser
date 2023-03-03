@@ -68,13 +68,15 @@ class AssignmentNode : public Node {
 Node *parseExpression(std::string input, int &position);
 
 Node *parseAssignment(std::string input, int &position);
-
+Node* parseUnaryExpression(std::string input, int& position); 
+Node* parsePrimaryExpression(std::string input, int& position);
 
 class Parser {
  private:
   std::string input;
   int position = 0;
   std::vector<Node *> statements;
+  SymbolTable symbol_table;
 
  public:
   Parser(std::string);
