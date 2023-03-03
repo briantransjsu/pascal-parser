@@ -16,5 +16,5 @@ std::optional<Symbol> SymbolTable::get_symbol(std::string name) {
 
 void SymbolTable::outputSymbolTable() {
     for (const auto& [key, value] : this->table)
-      std::cout << "{" << key << ": {" << value << "}\n";
+      std::cout << value << std::endl;
 }

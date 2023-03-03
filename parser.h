@@ -3,9 +3,9 @@
 
 #include <string>
 #include <vector>
-#include "symtab.h"
-#include "scanner.h"
 
+#include "scanner.h"
+#include "symtab.h"
 
 class Node {
  public:
@@ -40,10 +40,26 @@ class NumberNode : public Node {
   std::string value;
 };
 
+class UnaryOperatorNode : public Node {
+ public:
+  UnaryOperatorNode(std::string op, Node *operand) : op(op), operand(operand) {}
+
+  void print() {
+    std::cout << "(" << op << " ";
+    operand->print();
+    std::cout << ")";
+  }
+
+ private:
+  std::string op;
+  Node *operand;
+};
+
 class IdentifierNode : public Node {
  public:
   IdentifierNode(Token token) : name(token.value) {}
   virtual void print() { std::cout << name; }
+  std::string get_name() {return this -> name;}
 
  private:
   std::string name;
@@ -68,8 +84,8 @@ class AssignmentNode : public Node {
 Node *parseExpression(std::string input, int &position);
 
 Node *parseAssignment(std::string input, int &position);
-Node* parseUnaryExpression(std::string input, int& position); 
-Node* parsePrimaryExpression(std::string input, int& position);
+Node *parseUnaryExpression(std::string input, int &position);
+Node *parsePrimaryExpression(std::string input, int &position);
 
 class Parser {
  private:
@@ -81,7 +97,7 @@ class Parser {
  public:
   Parser(std::string);
   // return the root node of the parse tree
-  Node* parseProgram();
+  Node *parseProgram();
   // output tree to stdout
   void outputTree();
 };
