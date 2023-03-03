@@ -4,38 +4,71 @@
 #include <string>
 #include <vector>
 #include "symtab.h"
+#include "scanner.h"
 
-enum class node_type {
-  PROGRAM,
-  COMPOUND,
-  ASSIGN,
-  LOOP,
-  TEST,
-  WRITE,
-  WRITELN,
-  ADD,
-  SUBTRACT,
-  MULTIPLY,
-  DIVIDE,
-  EQ,
-  NE,
-  LT,
-  GT,
-  LE,
-  GE,
-  VARIABLE,
-  INTEGER_CONSTANT,
-  REAL_CONSTANT,
-  STRING_CONSTANT
+
+class Node {
+ public:
+  virtual ~Node() {}
+  virtual void print() = 0;
 };
 
-struct node {
-  int level;
-  node_type type;
-  Symbol values;
-  node* parent;
-  std::vector<node*> children;
+class BinaryOperatorNode : public Node {
+ public:
+  BinaryOperatorNode(Token op, Node *left, Node *right)
+      : op(op), left(left), right(right) {}
+  virtual void print() {
+    std::cout << "(";
+    left->print();
+    std::cout << " " << op.value << " ";
+    right->print();
+    std::cout << ")";
+  }
+
+ private:
+  Token op;
+  Node *left;
+  Node *right;
 };
+
+class NumberNode : public Node {
+ public:
+  NumberNode(Token token) : value(token.value) {}
+  virtual void print() { std::cout << value; }
+
+ private:
+  std::string value;
+};
+
+class IdentifierNode : public Node {
+ public:
+  IdentifierNode(Token token) : name(token.value) {}
+  virtual void print() { std::cout << name; }
+
+ private:
+  std::string name;
+};
+
+class AssignmentNode : public Node {
+ public:
+  AssignmentNode(IdentifierNode *left, Node *right)
+      : left(left), right(right) {}
+  virtual void print() {
+    left->print();
+    std::cout << " := ";
+    right->print();
+    std::cout << ";" << std::endl;
+  }
+
+ private:
+  IdentifierNode *left;
+  Node *right;
+};
+
+Node *parseExpression(std::string input, int &position);
+
+Node *parseAssignment(std::string input, int &position);
+
 
 class Parser {
  private:
@@ -44,9 +77,9 @@ class Parser {
  public:
   Parser(std::string);
   // return the root node of the parse tree
-  node* parseProgram();
+  Node* parseProgram();
   // output tree to stdout
-  void outputTree(node);
+  void outputTree(Node);
 };
 
 #endif
